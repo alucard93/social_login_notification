@@ -48,6 +48,28 @@ class _LoginPageState extends State<LoginPage> {
                 text: "Continue with Apple",
                 onPressed: () {},
               ),
+
+              SizedBox(height: 32),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(child: Divider(thickness: 1, color: Colors.grey)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text("or"),
+                  ),
+                  Expanded(child: Divider(thickness: 1, color: Colors.grey)),
+                ],
+              ),
+
+              SizedBox(height: 32),
+
+              LoginButton(
+                icon: Icons.phone_iphone,
+                text: "Use phone number",
+                onPressed: () {},
+              ),
             ],
           ),
         ),
