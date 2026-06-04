@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:social_login_notification/pages/login/widgets/login.store.dart';
 import 'package:social_login_notification/pages/login/widgets/login_button.widget.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:social_login_notification/pages/profile.page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,6 +14,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final loginStore = LoginStore();
+
+  void _navigateToProfile() {
+    if (!context.mounted) return;
+
+    Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute(builder: (context) => ProfilePage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,18 +42,54 @@ class _LoginPageState extends State<LoginPage> {
 
               SizedBox(height: MediaQuery.of(context).size.height * .1),
 
-              LoginButton(
-                pathImage: "assets/images/google.png",
-                text: "Continue with Google",
-                onPressed: () {},
+              Observer(
+                builder: (context) {
+                  return LoginButton(
+                    isLoading: loginStore.isGoogleLoading,
+                    pathImage: "assets/images/google.png",
+                    text: "Continue with Google",
+                    onPressed: () async {
+                      try {
+                        await loginStore.signInWithGoogle();
+                      } on GoogleSignInException catch (error) {
+                        if (!context.mounted) return;
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(_googleSignInErrorMessage(error)),
+                          ),
+                        );
+                        return;
+                      } on FirebaseAuthException catch (error) {
+                        if (!context.mounted) return;
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(error.message ?? error.code)),
+                        );
+                        return;
+                      }
+
+                      _navigateToProfile();
+                    },
+                  );
+                },
               ),
 
               SizedBox(height: 15),
 
-              LoginButton(
-                pathImage: "assets/images/facebook.png",
-                text: "Continue with Facebook",
-                onPressed: () {},
+              Observer(
+                builder: (context) {
+                  return LoginButton(
+                    isLoading: loginStore.isFacebookLoading,
+                    pathImage: "assets/images/facebook.png",
+                    text: "Continue with Facebook",
+                    onPressed: () async {
+                      await loginStore.signInWithFacebook();
+
+                      _navigateToProfile();
+                    },
+                  );
+                },
               ),
 
               SizedBox(height: 15),
@@ -75,5 +126,13 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  String _googleSignInErrorMessage(GoogleSignInException error) {
+    if (error.code == GoogleSignInExceptionCode.providerConfigurationError) {
+      return 'Atualize o Google Play Services do emulador ou use um emulador com Google Play.';
+    }
+
+    return error.description ?? error.code.name;
   }
 }
