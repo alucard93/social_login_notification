@@ -4,6 +4,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobx/mobx.dart';
 part 'login.store.g.dart';
 
+// MobX requires the generated store base class to remain private.
+// ignore: library_private_types_in_public_api
 class LoginStore = _LoginStoreBase with _$LoginStore;
 
 abstract class _LoginStoreBase with Store {

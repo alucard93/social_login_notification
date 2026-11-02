@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social_login_notification/pages/login.page.dart';
+import 'package:social_login_notification/services/firebase_notification.service.dart';
 import 'package:social_login_notification/widgets/my_drawer/my_drawer.widget.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -11,7 +12,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  int selectedMenu = 1;
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseNotificationService().initialize();
+  }
 
   @override
   Widget build(BuildContext context) {

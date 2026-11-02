@@ -16,6 +16,8 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     super.initState();
 
     Future.microtask(() {
+      if (!mounted) return;
+
       if (FirebaseAuth.instance.currentUser != null) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const ProfilePage()),
