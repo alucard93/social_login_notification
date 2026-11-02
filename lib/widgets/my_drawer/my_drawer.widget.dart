@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:social_login_notification/pages/login.page.dart';
 import 'package:social_login_notification/pages/messages.page.dart';
+import 'package:social_login_notification/pages/profile.page.dart';
 import 'package:social_login_notification/pages/settings.page.dart';
 import 'package:social_login_notification/pages/splash_screen.page.dart';
 import 'package:social_login_notification/widgets/my_drawer/my_drawer.store.dart';
+import 'package:get_it/get_it.dart';
 
 class MyDrawer extends StatelessWidget {
-  final myDrawerStore = MyDrawerStore();
+  final myDrawerStore = GetIt.I.get<MyDrawerStore>();
   MyDrawer({super.key});
 
   @override
@@ -53,7 +55,7 @@ class MyDrawer extends StatelessWidget {
                   myDrawerStore.setSelectMenu(1);
 
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => SplashScreenPage()),
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
                   );
                 },
               );

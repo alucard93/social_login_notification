@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:social_login_notification/pages/splash_screen.page.dart';
+import 'package:social_login_notification/widgets/my_drawer/my_drawer.store.dart';
+
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await GoogleSignIn.instance.initialize();
+  GetIt.I.registerSingleton(MyDrawerStore());
   runApp(const MyApp());
 }
 
