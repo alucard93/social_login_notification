@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         progressIndicatorTheme: const ProgressIndicatorThemeData(
           color: Colors.green,
         ),
+        listTileTheme: const ListTileThemeData(selectedColor: Colors.blue),
       ),
       home: const SplashScreenPage(),
     );

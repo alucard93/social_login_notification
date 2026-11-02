@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social_login_notification/pages/login.page.dart';
-import 'package:social_login_notification/pages/splash_screen.page.dart';
+import 'package:social_login_notification/widgets/my_drawer/my_drawer.widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -11,9 +11,14 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  int selectedMenu = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
+      drawer: MyDrawer(),
+
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
